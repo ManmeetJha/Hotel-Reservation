@@ -10,11 +10,22 @@ public class HotelReservation {
 
     //list to store the hotels
     public static ArrayList<Hotel> hotelList = new ArrayList<>();
+    public static ArrayList<Hotel> bestRatedhotelList = new ArrayList<>();
 
     public boolean addHotel_withRegularRates(String hotelName, int regularWeekdayRate, int regularWeekendRate) {
         Hotel hotel = new Hotel(hotelName);
         hotel.setRegularRates(regularWeekdayRate, regularWeekendRate);
         hotelList.add(hotel);
+        return true;
+    }
+
+    public boolean addRatingtoHotel(String hotelName, int rating) {
+        for (Hotel hotel : hotelList) {
+            if (hotel.getHotelName().equals(hotelName)) {
+                hotel.setRating(rating);
+
+            }
+        }
         return true;
     }
 
@@ -76,7 +87,6 @@ public class HotelReservation {
         return answer;
     }
 
-    //String to Date Conversion
     public static Date[] stringToDate(String InDate, String OutDate) {
         try {
             Date dateArr[] = new Date[2];
@@ -110,7 +120,6 @@ public class HotelReservation {
         return Count;
     }
 
-
     public static void main(String[] args) {
         System.out.println("Welcome to the HOTEL RESERVATION program");
 
@@ -125,6 +134,7 @@ public class HotelReservation {
         System.out.println("1. Add new Hotel with Regular Rates");
         System.out.println("2. Find Cheapest Hotel in given Date Range");
         System.out.println("3. Add rating to hotels");
+        System.out.println("4. Cheapest Best Rated Hotel");
         int choice = input.nextInt();
 
         switch (choice) {
@@ -151,7 +161,6 @@ public class HotelReservation {
                 System.out.println("Check-Out date: ");
                 String OutDate = input.next();
                 HashMap<String, Hotel> hotels = cheapestHotel(type, InDate, OutDate);
-                //customer.showBill();
                 System.out.println("Combined: " + hotels.get("Combined").getHotelName() + " at the cost of :" + hotels.get("Combined").bill);
                 System.out.println("Weekday: " + hotels.get("Weekday").getHotelName() + " at the cost of :" + hotels.get("Weekday").bill);
                 System.out.println("Weekend: " + hotels.get("Weekend").getHotelName() + " at the cost of :" + hotels.get("Weekend").bill);
@@ -166,19 +175,48 @@ public class HotelReservation {
                 int rating = input.nextInt();
                 hotelReservation.addRatingtoHotel(hotelName, rating);
             }
+
+            case 4:
+                System.out.println("Enter customer type");
+                String type = input.next().toLowerCase();
+                System.out.println("Enter Check-in and Check-out dates to find hotel (dd/mm/yyyy)");
+                System.out.println("Check-In date: ");
+                String InDate = input.next();
+                System.out.println("Check-Out date: ");
+                String OutDate = input.next();
+                System.out.println("Cheapest Best Rated hotel:");
+                Hotel cheapestBestRatedHotel=cheapestBestRatedHotel();
+                System.out.println("Best Rated Cheapest Hotel is:"+cheapestBestRatedHotel.getHotelName());
         }
     }
 
-    public boolean addRatingtoHotel(String hotelName, int rating) {
+    public static Hotel cheapestBestRatedHotel() {
+        int maxRating = Integer.MIN_VALUE;
         for (Hotel hotel : hotelList) {
-            if (hotel.getHotelName().equals(hotelName)) {
-                hotel.setRating(rating);
-
+            if (hotel.getRating() > maxRating) {
+                maxRating = hotel.getRating();
             }
         }
-        return true;
+
+        for (Hotel hotel : hotelList) {
+            if (hotel.getRating() == maxRating)
+                bestRatedhotelList.add(hotel);
+        }
+
+        int minRate = Integer.MAX_VALUE;
+        Hotel cheapestHotel = null;
+        for (Hotel hotel : bestRatedhotelList) {
+            int avg = (hotel.regularWeekdayRate + hotel.regularWeekendRate) / 2;
+            if (avg < minRate) {
+                minRate = avg;
+                cheapestHotel = hotel;
+            }
+        }
+        return cheapestHotel;
 
     }
+
+
 }
 
 

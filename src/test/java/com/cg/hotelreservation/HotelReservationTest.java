@@ -3,6 +3,7 @@ package com.cg.hotelreservation;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -58,4 +59,19 @@ public class HotelReservationTest {
         HotelReservation hotelReservation = new HotelReservation();
         hotelReservation.addHotel_withRegularRates("Lakewood", 110, 90);
         assertTrue(hotelReservation.addRatingtoHotel("Lakewood",3));
-    }}
+    }
+
+    @Test
+    public void cheapestBestRatedHotel_shouldMatchExpected() {
+        HotelReservation hotelReservation = new HotelReservation();
+        hotelReservation.addHotel_withRegularRates("Lakewood", 110, 90);
+        hotelReservation.addHotel_withRegularRates("Bridgewood", 160, 50);
+        hotelReservation.addHotel_withRegularRates("Ridgewood", 220, 150);
+        hotelReservation.addRatingtoHotel("Lakewood",3);
+        hotelReservation.addRatingtoHotel("Bridgewood",5);
+        hotelReservation.addRatingtoHotel("Ridgewood",5);
+        Hotel cheapestBestRatedHotel= HotelReservation.cheapestBestRatedHotel();
+        Assert.assertEquals("Bridgewood",cheapestBestRatedHotel.getHotelName());
+
+    }
+}

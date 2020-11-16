@@ -39,5 +39,8 @@ public class Hotel {
         System.out.println();
     }
 
+    public int getRating() {
+        return rating;
+    }
 }
 
