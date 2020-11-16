@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.cg.hotelreservation.HotelReservationTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2020-11-16T14:33:23" hostname="LAPTOP-21LB24T9" time="0.006">
+<testsuite name="com.cg.hotelreservation.HotelReservationTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2020-11-16T15:22:26" hostname="LAPTOP-21LB24T9" time="0.008">
   <properties/>
-  <testcase name="whenHotelsWith_RegularRatesAdded_ShouldReturnTrue" classname="com.cg.hotelreservation.HotelReservationTest" time="0.006"/>
-  <system-out><![CDATA[]]></system-out>
+  <testcase name="whenRangeofDatesGiven_ShouldReturn_CheapestHotel" classname="com.cg.hotelreservation.HotelReservationTest" time="0.008"/>
+  <system-out><![CDATA[Thu Sep 10 00:00:00 IST 2020 Fri Sep 11 00:00:00 IST 2020
+]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>
