@@ -6,6 +6,8 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.HashMap;
+
 public class HotelReservationTest {
     private Customer customer;
 
@@ -23,9 +25,31 @@ public class HotelReservationTest {
         hotelReservation.addHotel_withRegularRates("Lakewood", 110, 90);
         hotelReservation.addHotel_withRegularRates("Bridgewood", 160, 50);
         hotelReservation.addHotel_withRegularRates("Ridgewood", 220, 150);
-        customer=HotelReservation.cheapestHotel("regular","10/9/2020","11/9/2020");
-        assertEquals(220, customer.getBill());
-        assertEquals("Lakewood", customer.getHotelName());
+        HashMap<String, Hotel> hotels=HotelReservation.cheapestHotel("regular","10/09/2020","11/09/2020");
+        Hotel combinedHotel = hotels.get("Combined");
+        assertEquals(220, combinedHotel.bill);
+        assertEquals("Lakewood", combinedHotel.getHotelName());
+
+    }
+
+    @Test
+    public void whenRangeofDatesGiven_ShouldReturn_CheapestHotel_basedOnWeekEnds_Days() {
+        HotelReservation hotelReservation = new HotelReservation();
+        hotelReservation.addHotel_withRegularRates("Lakewood", 110, 90);
+        hotelReservation.addHotel_withRegularRates("Bridgewood", 160, 50);
+        hotelReservation.addHotel_withRegularRates("Ridgewood", 220, 150);
+        HashMap<String, Hotel> hotels=HotelReservation.cheapestHotel("regular","01/01/2020","08/01/2020");
+        Hotel combinedHotel = hotels.get("Combined");
+        assertEquals(840, combinedHotel.bill);
+        assertEquals("Lakewood", combinedHotel.getHotelName());
+
+        Hotel combinedHotelDay = hotels.get("Weekday");
+        assertEquals(660, combinedHotelDay.bill);
+        assertEquals("Lakewood", combinedHotelDay.getHotelName());
+
+        Hotel combinedHotelEnds = hotels.get("Weekend");
+        assertEquals(100, combinedHotelEnds.bill);
+        assertEquals("Bridgewood", combinedHotelEnds.getHotelName());
 
     }
 }
