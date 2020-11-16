@@ -18,6 +18,7 @@ public class HotelReservation {
         return true;
     }
 
+
     public void display() {
         for (Hotel hotel : hotelList)
             hotel.display();
@@ -37,7 +38,7 @@ public class HotelReservation {
         int[] countDays = countWeekDaysEnds(inDate, outDate);
         int weekDaysNo = countDays[0];
         int weekEndsNo = countDays[1];
-        System.out.println("Days: "+ Arrays.toString(countDays));
+        System.out.println("Days: " + Arrays.toString(countDays));
 
         int minBill = Integer.MAX_VALUE;
         Hotel cheapestHotel = null;
@@ -51,23 +52,22 @@ public class HotelReservation {
             int WeekDayBill = weekDaysNo * customer.weekDayRate;
             if (WeekDayBill < minBill_WeekDay) {
                 minBill_WeekDay = WeekDayBill;
-                answer.put("Weekday",new Hotel(hotel.getHotelName(), minBill_WeekDay));
+                answer.put("Weekday", new Hotel(hotel.getHotelName(), minBill_WeekDay));
             }
 
             int WeekEndBill = weekEndsNo * customer.weekEndRate;
             if (WeekEndBill < minBill_WeekEnd) {
                 minBill_WeekEnd = WeekEndBill;
-                answer.put("Weekend",new Hotel(hotel.getHotelName(), minBill_WeekEnd));
+                answer.put("Weekend", new Hotel(hotel.getHotelName(), minBill_WeekEnd));
             }
 
             int combinedBill = weekDaysNo * customer.weekDayRate + weekEndsNo * customer.weekEndRate;
             if (combinedBill < minBill) {
                 minBill = combinedBill;
-                answer.put("Combined",new Hotel(hotel.getHotelName(), minBill));
+                answer.put("Combined", new Hotel(hotel.getHotelName(), minBill));
             }
 
         }
-
 
 
 //        customer.hotelName = cheapestHotel.hotelName;
@@ -124,6 +124,7 @@ public class HotelReservation {
         System.out.println("Enter your choice:");
         System.out.println("1. Add new Hotel with Regular Rates");
         System.out.println("2. Find Cheapest Hotel in given Date Range");
+        System.out.println("3. Add rating to hotels");
         int choice = input.nextInt();
 
         switch (choice) {
@@ -149,17 +150,36 @@ public class HotelReservation {
                 String InDate = input.next();
                 System.out.println("Check-Out date: ");
                 String OutDate = input.next();
-                HashMap<String, Hotel> hotels= cheapestHotel(type, InDate, OutDate);
+                HashMap<String, Hotel> hotels = cheapestHotel(type, InDate, OutDate);
                 //customer.showBill();
-                System.out.println("Combined: "+hotels.get("Combined").getHotelName()+" at the cost of :"+ hotels.get("Combined").bill);
-                System.out.println("Weekday: "+hotels.get("Weekday").getHotelName()+" at the cost of :"+ hotels.get("Weekday").bill);
-                System.out.println("Weekend: "+hotels.get("Weekend").getHotelName()+" at the cost of :"+ hotels.get("Weekend").bill);
-                int totalBill = hotels.get("Weekday").bill+hotels.get("Weekend").bill;
-                System.out.println("Total bill :"+ totalBill);
+                System.out.println("Combined: " + hotels.get("Combined").getHotelName() + " at the cost of :" + hotels.get("Combined").bill);
+                System.out.println("Weekday: " + hotels.get("Weekday").getHotelName() + " at the cost of :" + hotels.get("Weekday").bill);
+                System.out.println("Weekend: " + hotels.get("Weekend").getHotelName() + " at the cost of :" + hotels.get("Weekend").bill);
+                int totalBill = hotels.get("Weekday").bill + hotels.get("Weekend").bill;
+                System.out.println("Total bill :" + totalBill);
             }
 
+            case 3: {
+                System.out.println("Enter Hotel Name:");
+                String hotelName = input.next();
+                System.out.println("Specify Rating of the hotel:");
+                int rating = input.nextInt();
+                hotelReservation.addRatingtoHotel(hotelName, rating);
+            }
         }
     }
 
+    public boolean addRatingtoHotel(String hotelName, int rating) {
+        for (Hotel hotel : hotelList) {
+            if (hotel.getHotelName().equals(hotelName)) {
+                hotel.setRating(rating);
 
+            }
+        }
+        return true;
+
+    }
 }
+
+
+
