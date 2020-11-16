@@ -18,6 +18,9 @@ public class Hotel {
         this.bill = bill;
     }
 
+    public void setRating(int rating){
+        this.rating=rating;
+    }
 
     public String getHotelName() {
         return hotelName;

@@ -52,4 +52,10 @@ public class HotelReservationTest {
         assertEquals("Bridgewood", combinedHotelEnds.getHotelName());
 
     }
-}
+
+    @Test
+    public void  whenRatingAdded_ShouldReturnTrue(){
+        HotelReservation hotelReservation = new HotelReservation();
+        hotelReservation.addHotel_withRegularRates("Lakewood", 110, 90);
+        assertTrue(hotelReservation.addRatingtoHotel("Lakewood",3));
+    }}
