@@ -108,10 +108,13 @@ public class HotelReservation {
             case 1: {
                 System.out.println("Enter Hotel Name:");
                 String hotelName = input.next();
+
+                //UC3-WeekDay-End Rates
                 System.out.println("Enter regular weekday rate:");
                 int regularWeekdayRate = input.nextInt();
                 System.out.println("Enter regular weekend rate:");
                 int regularWeekendRate = input.nextInt();
+
                 hotelReservation.addHotel_withRegularRates(hotelName, regularWeekdayRate, regularWeekendRate);
                 System.out.println("Hotel Successfully Added!!!");
                 break;
