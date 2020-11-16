@@ -23,7 +23,8 @@ public class HotelReservation {
             hotel.display();
     }
 
-    public static Customer cheapestHotel(String Type, String InDate, String OutDate) {
+    public static HashMap<String, Hotel> cheapestHotel(String Type, String InDate, String OutDate) {
+        HashMap<String, Hotel> answer = new HashMap<>();
         Customer customer = new Customer("", 0);
 
         //Conversion of string to date
@@ -36,22 +37,43 @@ public class HotelReservation {
         int[] countDays = countWeekDaysEnds(inDate, outDate);
         int weekDaysNo = countDays[0];
         int weekEndsNo = countDays[1];
+        System.out.println("Days: "+ Arrays.toString(countDays));
 
         int minBill = Integer.MAX_VALUE;
         Hotel cheapestHotel = null;
+        int minBill_WeekDay = Integer.MAX_VALUE;
+        Hotel cheapestHotel_WeekDay = null;
+        int minBill_WeekEnd = Integer.MAX_VALUE;
+        Hotel cheapestHotel_WeekEnd = null;
 
         for (Hotel hotel : hotelList) {
             customer.setRateOnType(Type, hotel);
-            int Bill = weekDaysNo * customer.weekDayRate + weekEndsNo * customer.weekEndRate;
-            hotel.bill = Bill;
-            if (Bill < minBill) {
-                minBill = Bill;
-                cheapestHotel = hotel;
+            int WeekDayBill = weekDaysNo * customer.weekDayRate;
+            if (WeekDayBill < minBill_WeekDay) {
+                minBill_WeekDay = WeekDayBill;
+                answer.put("Weekday",new Hotel(hotel.getHotelName(), minBill_WeekDay));
             }
+
+            int WeekEndBill = weekEndsNo * customer.weekEndRate;
+            if (WeekEndBill < minBill_WeekEnd) {
+                minBill_WeekEnd = WeekEndBill;
+                answer.put("Weekend",new Hotel(hotel.getHotelName(), minBill_WeekEnd));
+            }
+
+            int combinedBill = weekDaysNo * customer.weekDayRate + weekEndsNo * customer.weekEndRate;
+            if (combinedBill < minBill) {
+                minBill = combinedBill;
+                answer.put("Combined",new Hotel(hotel.getHotelName(), minBill));
+            }
+
         }
-        customer.hotelName = cheapestHotel.hotelName;
-        customer.setBill(cheapestHotel.bill);
-        return customer;
+
+
+
+//        customer.hotelName = cheapestHotel.hotelName;
+//        customer.setBill(cheapestHotel.bill);
+//        return customer;
+        return answer;
     }
 
     //String to Date Conversion
@@ -127,8 +149,13 @@ public class HotelReservation {
                 String InDate = input.next();
                 System.out.println("Check-Out date: ");
                 String OutDate = input.next();
-                Customer customer = cheapestHotel(type, InDate, OutDate);
-                customer.showBill();
+                HashMap<String, Hotel> hotels= cheapestHotel(type, InDate, OutDate);
+                //customer.showBill();
+                System.out.println("Combined: "+hotels.get("Combined").getHotelName()+" at the cost of :"+ hotels.get("Combined").bill);
+                System.out.println("Weekday: "+hotels.get("Weekday").getHotelName()+" at the cost of :"+ hotels.get("Weekday").bill);
+                System.out.println("Weekend: "+hotels.get("Weekend").getHotelName()+" at the cost of :"+ hotels.get("Weekend").bill);
+                int totalBill = hotels.get("Weekday").bill+hotels.get("Weekend").bill;
+                System.out.println("Total bill :"+ totalBill);
             }
 
         }

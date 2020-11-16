@@ -13,6 +13,12 @@ public class Hotel {
         this.hotelName = hotelName;
     }
 
+    public Hotel(String hotelName, int bill){
+        this.hotelName = hotelName;
+        this.bill = bill;
+    }
+
+
     public String getHotelName() {
         return hotelName;
     }
