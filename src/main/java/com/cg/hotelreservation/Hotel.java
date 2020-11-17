@@ -42,5 +42,8 @@ public class Hotel {
     public int getRating() {
         return rating;
     }
+
+
+
 }
 

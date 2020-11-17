@@ -135,6 +135,7 @@ public class HotelReservation {
         System.out.println("2. Find Cheapest Hotel in given Date Range");
         System.out.println("3. Add rating to hotels");
         System.out.println("4. Cheapest Best Rated Hotel");
+        System.out.println("5. Add Reward rates to customers:");
         int choice = input.nextInt();
 
         switch (choice) {
@@ -147,7 +148,6 @@ public class HotelReservation {
                 int regularWeekdayRate = input.nextInt();
                 System.out.println("Enter regular weekend rate:");
                 int regularWeekendRate = input.nextInt();
-
                 hotelReservation.addHotel_withRegularRates(hotelName, regularWeekdayRate, regularWeekendRate);
                 System.out.println("Hotel Successfully Added!!!");
                 break;
@@ -176,7 +176,7 @@ public class HotelReservation {
                 hotelReservation.addRatingtoHotel(hotelName, rating);
             }
 
-            case 4:
+            case 4: {
                 System.out.println("Enter customer type");
                 String type = input.next().toLowerCase();
                 System.out.println("Enter Check-in and Check-out dates to find hotel (dd/mm/yyyy)");
@@ -185,9 +185,31 @@ public class HotelReservation {
                 System.out.println("Check-Out date: ");
                 String OutDate = input.next();
                 System.out.println("Cheapest Best Rated hotel:");
-                Hotel cheapestBestRatedHotel=cheapestBestRatedHotel();
-                System.out.println("Best Rated Cheapest Hotel is:"+cheapestBestRatedHotel.getHotelName());
+                Hotel cheapestBestRatedHotel = cheapestBestRatedHotel();
+                System.out.println("Best Rated Cheapest Hotel is:" + cheapestBestRatedHotel.getHotelName());
+            }
+
+            case 5:
+                System.out.println("Enter Hotel Name:");
+                String hotelName = input.next();
+                System.out.println("Enter customer type");
+                String type = input.next().toLowerCase();
+                System.out.println("Enter weekday reward rate:");
+                int rewardWeekdayRate=input.nextInt();
+                System.out.println("Enter weekend reward rate:");
+                int rewardWeekendRate=input.nextInt();
+                hotelReservation.addRewardRate(hotelName,rewardWeekdayRate,rewardWeekendRate);
         }
+    }
+
+    public boolean addRewardRate(String hotelName, int rewardWeekdayRate, int rewardWeekendRate) {
+        for (Hotel hotel : hotelList) {
+            if (hotel.getHotelName().equals(hotelName)) {
+                hotel.regularWeekdayRate=rewardWeekdayRate;
+                hotel.rewardWeekendRate=rewardWeekendRate;
+            }
+        }
+        return true;
     }
 
     public static Hotel cheapestBestRatedHotel() {

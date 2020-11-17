@@ -74,4 +74,11 @@ public class HotelReservationTest {
         Assert.assertEquals("Bridgewood",cheapestBestRatedHotel.getHotelName());
 
     }
+
+    @Test
+    public void whenRewardRatesAdded_ShouldReturnTure() {
+        HotelReservation hotelReservation = new HotelReservation();
+        hotelReservation.addHotel_withRegularRates("Lakewood", 110, 90);
+        assertTrue(hotelReservation.addRewardRate("Lakewood",80,80));
+    }
 }
