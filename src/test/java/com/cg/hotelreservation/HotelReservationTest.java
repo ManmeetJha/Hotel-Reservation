@@ -70,7 +70,8 @@ public class HotelReservationTest {
         hotelReservation.addRatingtoHotel("Lakewood",3);
         hotelReservation.addRatingtoHotel("Bridgewood",5);
         hotelReservation.addRatingtoHotel("Ridgewood",5);
-        Hotel cheapestBestRatedHotel= HotelReservation.cheapestBestRatedHotel();
+        String Type="regular";
+        Hotel cheapestBestRatedHotel= HotelReservation.cheapestBestRatedHotel(Type);
         Assert.assertEquals("Bridgewood",cheapestBestRatedHotel.getHotelName());
 
     }
@@ -80,5 +81,23 @@ public class HotelReservationTest {
         HotelReservation hotelReservation = new HotelReservation();
         hotelReservation.addHotel_withRegularRates("Lakewood", 110, 90);
         assertTrue(hotelReservation.addRewardRate("Lakewood",80,80));
+    }
+
+    @Test
+    public void cheapestBestRatedHotelForReward_shouldMatchExpected() {
+        HotelReservation hotelReservation = new HotelReservation();
+        hotelReservation.addHotel_withRegularRates("Lakewood", 110, 90);
+        hotelReservation.addHotel_withRegularRates("Bridgewood", 160, 50);
+        hotelReservation.addHotel_withRegularRates("Ridgewood", 220, 150);
+        hotelReservation.addRatingtoHotel("Lakewood",3);
+        hotelReservation.addRatingtoHotel("Bridgewood",5);
+        hotelReservation.addRatingtoHotel("Ridgewood",5);
+        hotelReservation.addRewardRate("Lakewood",80,80);
+        hotelReservation.addRewardRate("Bridgewood",110,50);
+        hotelReservation.addRewardRate("Ridgewood",100,40);
+        String Type="reward";
+        Hotel cheapestBestRatedHotel= HotelReservation.cheapestBestRatedHotel(Type);
+        Assert.assertEquals("Ridgewood",cheapestBestRatedHotel.getHotelName());
+
     }
 }
