@@ -185,34 +185,35 @@ public class HotelReservation {
                 System.out.println("Check-Out date: ");
                 String OutDate = input.next();
                 System.out.println("Cheapest Best Rated hotel:");
-                Hotel cheapestBestRatedHotel = cheapestBestRatedHotel();
+                Hotel cheapestBestRatedHotel = cheapestBestRatedHotel(type);
                 System.out.println("Best Rated Cheapest Hotel is:" + cheapestBestRatedHotel.getHotelName());
             }
 
-            case 5:
+            case 5: {
                 System.out.println("Enter Hotel Name:");
                 String hotelName = input.next();
                 System.out.println("Enter customer type");
                 String type = input.next().toLowerCase();
                 System.out.println("Enter weekday reward rate:");
-                int rewardWeekdayRate=input.nextInt();
+                int rewardWeekdayRate = input.nextInt();
                 System.out.println("Enter weekend reward rate:");
-                int rewardWeekendRate=input.nextInt();
-                hotelReservation.addRewardRate(hotelName,rewardWeekdayRate,rewardWeekendRate);
+                int rewardWeekendRate = input.nextInt();
+                hotelReservation.addRewardRate(hotelName, rewardWeekdayRate, rewardWeekendRate);
+            }
         }
     }
 
     public boolean addRewardRate(String hotelName, int rewardWeekdayRate, int rewardWeekendRate) {
         for (Hotel hotel : hotelList) {
             if (hotel.getHotelName().equals(hotelName)) {
-                hotel.regularWeekdayRate=rewardWeekdayRate;
-                hotel.rewardWeekendRate=rewardWeekendRate;
+                hotel.rewardWeekdayRate = rewardWeekdayRate;
+                hotel.rewardWeekendRate = rewardWeekendRate;
             }
         }
         return true;
     }
 
-    public static Hotel cheapestBestRatedHotel() {
+    public static Hotel cheapestBestRatedHotel(String type) {
         int maxRating = Integer.MIN_VALUE;
         for (Hotel hotel : hotelList) {
             if (hotel.getRating() > maxRating) {
@@ -228,7 +229,9 @@ public class HotelReservation {
         int minRate = Integer.MAX_VALUE;
         Hotel cheapestHotel = null;
         for (Hotel hotel : bestRatedhotelList) {
-            int avg = (hotel.regularWeekdayRate + hotel.regularWeekendRate) / 2;
+            int weekDayRate=hotel.getWeekDayRateOnType(type,hotel);
+            int weekEndRate=hotel.getWeekEndRateOnType(type,hotel);
+            int avg = (weekDayRate + weekEndRate) / 2;
             if (avg < minRate) {
                 minRate = avg;
                 cheapestHotel = hotel;
